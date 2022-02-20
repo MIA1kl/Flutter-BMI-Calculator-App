@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'reusable_card.dart';
+import 'card_content.dart';
+
+const bottomButtonHeight = 80.0;
+const activeCardColor = Color(0xFF1D1E33);
+const bottomButtonColor = Color(0xFFEB1555);
+const inactiveCardColor = Color(0xFF111328);
 
 class InputPage extends StatefulWidget {
   @override
@@ -6,56 +14,96 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+
+  Color maleCardColor = inactiveCardColor;
+  Color femaleCardColor = inactiveCardColor;
+
+  void updateColor(int gender){
+    if(gender == 1){
+      maleCardColor  = activeCardColor;
+      femaleCardColor = inactiveCardColor;
+    }
+    else{
+      maleCardColor = inactiveCardColor;
+      femaleCardColor = activeCardColor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('BMI CALCULATOR'),
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  ReusableCard(Color(0xFF1D1E33)),
-                  ReusableCard(Color(0xFF1D1E33)),
-                ],
-              ),
+      appBar: AppBar(
+        title: Text('BMI CALCULATOR'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        updateColor(1);
+                      });
+                    },
+                    child: ReusableCard(
+                      myColor: maleCardColor,
+                      cardChild: CardContent(FontAwesomeIcons.mars, 'MALE'),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                      updateColor(2);
+                      });
+                    },
+                    child: ReusableCard(
+                      myColor: femaleCardColor,
+                      cardChild: CardContent(FontAwesomeIcons.venus, 'FEMALE'),
+                    ),
+                  ),
+                )
+              ],
             ),
-            ReusableCard(Color(0xFF1D1E33)),
-            Expanded(
-              child: Row(
-                children: [
-                  ReusableCard(Color(0xFF1D1E33)),
-                  ReusableCard(Color(0xFF1D1E33)),
-                ],
-              ),
+          ),
+          Expanded(
+            child: ReusableCard(
+              myColor: activeCardColor,
             ),
-
-          ],
-        ),);
-  }
-}
-
-class ReusableCard extends StatelessWidget{
-
-  final Color myColor;
-
-  ReusableCard(this.myColor);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: myColor,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        margin: EdgeInsets.all(15.0),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: ReusableCard(
+                    myColor: activeCardColor,
+                  ),
+                ),
+                Expanded(
+                  child: ReusableCard(
+                    myColor: activeCardColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+              color: bottomButtonColor,
+              width: double.infinity,
+              height: bottomButtonHeight,
+              margin: EdgeInsets.only(top: 10.0),
+              child: Text(
+                'CALCULATE',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  color: Color(0xFFFFFFFF),
+                ),
+              ))
+        ],
       ),
     );
   }
-  
 }
-
-
