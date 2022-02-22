@@ -57,7 +57,7 @@ class _InputPageState extends State<InputPage> {
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Height', style: kLabelTextStyle,),
+                  Text('HEIGHT', style: kLabelTextStyle,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -67,17 +67,25 @@ class _InputPageState extends State<InputPage> {
                       Text('CM', style: kLabelTextStyle,)
                     ],
                   ),
-                  Slider(
-                      value: height.toDouble(),
-                      min: kMinSliderValue,
-                      max: kMaxSliderValue,
-                      activeColor: kActiveSliderColor,
-                      inactiveColor: kInactiveSliderColor,
-                      onChanged: (double newValue){
-                        setState(() {
-                          height = newValue.toInt();
-                        });
-                      }),
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      inactiveTrackColor: Color(0xFF8D8E98),
+                      activeTrackColor: Color(0xFFFFFFFF),
+                      thumbColor: Color(0xFFEB1555),
+                      overlayColor: Color(0x29EB1555),
+                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                      overlayShape: RoundSliderOverlayShape(overlayRadius: 40.0),
+                    ),
+                    child: Slider(
+                        value: height.toDouble(),
+                        min: kMinSliderValue,
+                        max: kMaxSliderValue,
+                        onChanged: (double newValue){
+                          setState(() {
+                            height = newValue.toInt();
+                          });
+                        }),
+                  ),
                 ],
               ),
               myColor: kActiveCardColor,
