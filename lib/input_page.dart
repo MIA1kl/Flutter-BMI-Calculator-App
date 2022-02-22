@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'card_content.dart';
+import 'constants.dart';
 
-const bottomButtonHeight = 80.0;
-const activeCardColor = Color(0xFF1D1E33);
-const bottomButtonColor = Color(0xFFEB1555);
-const inactiveCardColor = Color(0xFF111328);
 
 class InputPage extends StatefulWidget {
   @override
@@ -16,6 +13,7 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
 
   GenderType selectedGender;
+  int height = 170;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +22,7 @@ class _InputPageState extends State<InputPage> {
         title: Text('BMI CALCULATOR'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
@@ -35,7 +34,7 @@ class _InputPageState extends State<InputPage> {
                         selectedGender = GenderType.male;
                       });
                     },
-                    myColor: selectedGender == GenderType.male ? activeCardColor : inactiveCardColor,
+                    myColor: selectedGender == GenderType.male ? kActiveCardColor : kInactiveCardColor,
                     cardChild: CardContent(FontAwesomeIcons.mars, 'MALE'),
                   ),
                 ),
@@ -46,7 +45,7 @@ class _InputPageState extends State<InputPage> {
                         selectedGender = GenderType.female;
                       });
                     },
-                    myColor: selectedGender == GenderType.female ? activeCardColor : inactiveCardColor,
+                    myColor: selectedGender == GenderType.female ? kActiveCardColor : kInactiveCardColor,
                     cardChild: CardContent(FontAwesomeIcons.venus, 'FEMALE'),
                   ),
                 )
@@ -55,7 +54,33 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: ReusableCard(
-              myColor: activeCardColor,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Height', style: kLabelTextStyle,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(height.toString(), style: kNumbersTextStyle),
+                      Text('CM', style: kLabelTextStyle,)
+                    ],
+                  ),
+                  Slider(
+                      value: height.toDouble(),
+                      min: kMinSliderValue,
+                      max: kMaxSliderValue,
+                      activeColor: kActiveSliderColor,
+                      inactiveColor: kInactiveSliderColor,
+                      onChanged: (double newValue){
+                        setState(() {
+                          height = newValue.toInt();
+                        });
+                      }),
+                ],
+              ),
+              myColor: kActiveCardColor,
             ),
           ),
           Expanded(
@@ -63,21 +88,21 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    myColor: activeCardColor,
+                    myColor: kActiveCardColor,
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
-                    myColor: activeCardColor,
+                    myColor: kActiveCardColor,
                   ),
                 ),
               ],
             ),
           ),
           Container(
-              color: bottomButtonColor,
+              color: kBottomButtonColor,
               width: double.infinity,
-              height: bottomButtonHeight,
+              height: kBottomButtonHeight,
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
                 'CALCULATE',
